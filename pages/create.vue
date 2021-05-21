@@ -13,6 +13,7 @@
         >SAVE</b-button
       >
     </b-modal>
+    <b-button to="/">Home</b-button>
     <div class="d-flex">
       <b-col cols="4" class="item-box px-3">
         <div
@@ -60,6 +61,11 @@
         </div>
       </b-col>
       <b-col cols="8" class="box p-3">
+        <b-form-input
+          v-model="title"
+          class="mb-3"
+          placeholder="Input Title"
+        ></b-form-input>
         <div
           @dragover.prevent
           @dragenter.prevent
@@ -112,6 +118,7 @@
 export default {
   data() {
     return {
+      title: null,
       items: [],
       edit: {},
       editIndex: null,
@@ -121,9 +128,13 @@ export default {
   methods: {
     sendData() {
       this.$axios
-        .post('https://soa-server.herokuapp.com/form', { items: this.items })
+        .post('https://soa-server.herokuapp.com/form', {
+          title: this.title,
+          items: this.items,
+        })
         .then((res) => {
           console.log('Good')
+          this.$router.push('/')
         })
         .catch((err) => {
           console.log(err)

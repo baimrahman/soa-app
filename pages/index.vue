@@ -5,13 +5,24 @@
       <div
         v-for="(i, index) in items"
         :key="index"
-        class="d-flex item-box p-3 mb-3"
+        class="d-flex justify-content-between align-content-center item-box p-3 mb-3"
       >
-        <div>{{ i._id }}</div>
-        <b-button class="mr-2" :to="`/submit/${i._id}`" size="sm"
-          >Make Data</b-button
-        >
-        <b-button :to="`/table/${i._id}`" size="sm">See Data</b-button>
+        <div>{{ i.title }}</div>
+        <div>
+          <b-button class="mr-2" :to="`/submit/${i._id}`" size="sm"
+            >Make Data</b-button
+          >
+          <b-button class="mr-2" :to="`/table/${i._id}`" size="sm"
+            >See Data</b-button
+          >
+          <b-button
+            class="mr-2"
+            variant="danger"
+            @click="deleteData(i._id)"
+            size="sm"
+            >Delete</b-button
+          >
+        </div>
       </div>
     </b-col>
   </div>
@@ -25,9 +36,21 @@ export default {
     }
   },
   created() {
-    this.$axios.get('https://soa-server.herokuapp.com/form').then((res) => {
-      this.items = res.data
-    })
+    this.getData()
+  },
+  methods: {
+    deleteData(id) {
+      this.$axios
+        .delete(`https://soa-server.herokuapp.com/form/${id}`)
+        .then((res) => {
+          this.getData()
+        })
+    },
+    getData() {
+      this.$axios.get('https://soa-server.herokuapp.com/form').then((res) => {
+        this.items = res.data
+      })
+    },
   },
 }
 </script>

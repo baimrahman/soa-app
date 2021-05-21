@@ -14,7 +14,11 @@
             v-model="i.value"
           />
         </div>
-        <b-button @click="sendData()" class="w-100" variant="success"
+        <b-button
+          v-if="items.length > 0"
+          @click="sendData()"
+          class="w-100"
+          variant="success"
           >SAVE DATA</b-button
         >
       </b-col>
@@ -43,7 +47,7 @@ export default {
       this.$axios
         .post('https://soa-server.herokuapp.com/form/submit', data)
         .then((res) => {
-          console.log(res)
+          this.$router.push('/')
         })
     },
   },
